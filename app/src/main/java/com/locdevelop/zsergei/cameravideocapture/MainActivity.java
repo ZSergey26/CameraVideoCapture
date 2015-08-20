@@ -46,15 +46,19 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
+        super.onPause();
         mCamera.release();
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
         mCamera = getCameraInstance();
     }
 
     public static boolean screenCaptured = false;
+    public static boolean firstLaunch = true;
+
     /**
      * Обработчик нажатия на кнопку
      * @param view Объект на который нажали
@@ -63,18 +67,16 @@ public class MainActivity extends Activity {
 
         if (!screenCaptured) {
 
-            if (mCamera == null) {
-                mCamera = getCameraInstance();
-
-                // Вставляем созданный объект в разметку
-                mPreview = new CameraVideoCapture(this, mCamera);
-                FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-                preview.addView(mPreview);
-                screenCaptured = true;
-            } else {
-                mPreview.startCapturing();
-                screenCaptured = true;
-
+                if(firstLaunch) {
+                    // Вставляем созданный объект в разметку
+                    mPreview = new CameraVideoCapture(this, mCamera);
+                    FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+                    preview.addView(mPreview);
+                    screenCaptured = true;
+                    firstLaunch = false;
+                } else {
+                    mPreview.startCapturing();
+                    screenCaptured = true;
             }
         }
         else
