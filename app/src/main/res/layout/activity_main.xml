@@ -3,19 +3,31 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:background="#ff707070">
     <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        />
+        >
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Press button to capture video"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal|top"
+            android:textColor="#ffffffff" />
+    </FrameLayout>
+
+    <ImageButton
         android:id="@+id/button_capture"
-        android:text="Capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="69dp"
         android:layout_gravity="center"
-        />
+        android:onClick="showCaptureFromCamera"
+        android:src="@drawable/ic_camera_alt_white_24dp"
+        android:layout_marginLeft="-80dp" />
+
 </LinearLayout>

@@ -1,18 +1,30 @@
 package com.locdevelop.zsergei.cameravideocapture;
 
+import android.app.Activity;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 
-
-public class MainActivity extends AppCompatActivity {
+@SuppressWarnings("deprecation")
+public class MainActivity extends Activity {
 
     private static final String TAG = "Camera video capture";
+
+    private Camera mCamera;
+    private CameraVideoCapture mPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
     }
 
@@ -20,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return Camera object. Null if camera is unavailable
      */
-    @SuppressWarnings("deprecation")
     public static Camera getCameraInstance(){
         Camera c = null;
         try {
@@ -32,4 +43,22 @@ public class MainActivity extends AppCompatActivity {
         }
         return c;
     }
+
+    /**
+     * Обработчик нажатия на кнопку
+     * @param view Объект на который нажали
+     */
+    public void showCaptureFromCamera(View view) {
+        mCamera = getCameraInstance();
+
+        // Вставляем созданный объект в разметку
+        mPreview = new CameraVideoCapture(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
+
+        // Вызов этой функции во второй раз вызывает ошибку
+        // чтобы избежать этого делаем кнопку недоступной
+        view.setEnabled(false);
+    }
+
 }
