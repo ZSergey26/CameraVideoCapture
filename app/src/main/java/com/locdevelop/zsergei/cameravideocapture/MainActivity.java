@@ -44,21 +44,44 @@ public class MainActivity extends Activity {
         return c;
     }
 
+    @Override
+    protected void onPause() {
+        mCamera.release();
+    }
+
+    @Override
+    protected void onResume() {
+        mCamera = getCameraInstance();
+    }
+
+    public static boolean screenCaptured = false;
     /**
      * Обработчик нажатия на кнопку
      * @param view Объект на который нажали
      */
     public void showCaptureFromCamera(View view) {
-        mCamera = getCameraInstance();
 
-        // Вставляем созданный объект в разметку
-        mPreview = new CameraVideoCapture(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        if (!screenCaptured) {
 
-        // Вызов этой функции во второй раз вызывает ошибку
-        // чтобы избежать этого делаем кнопку недоступной
-        view.setEnabled(false);
+            if (mCamera == null) {
+                mCamera = getCameraInstance();
+
+                // Вставляем созданный объект в разметку
+                mPreview = new CameraVideoCapture(this, mCamera);
+                FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+                preview.addView(mPreview);
+                screenCaptured = true;
+            } else {
+                mPreview.startCapturing();
+                screenCaptured = true;
+
+            }
+        }
+        else
+        {
+            mPreview.stopCapturing();
+            screenCaptured = false;
+        }
     }
 
 }

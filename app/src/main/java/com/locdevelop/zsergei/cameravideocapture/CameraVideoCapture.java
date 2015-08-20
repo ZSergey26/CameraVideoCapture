@@ -78,4 +78,23 @@ public class CameraVideoCapture extends SurfaceView implements SurfaceHolder.Cal
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
     }
+
+    public void stopCapturing()
+    {
+        if (mHolder.getSurface() == null){
+            return;
+        }
+
+        try {
+            mCamera.stopPreview();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG, "Error stopping camera preview: " + e.getMessage());
+        }
+    }
+
+    public void startCapturing()
+    {
+        mCamera.startPreview();
+    }
 }
