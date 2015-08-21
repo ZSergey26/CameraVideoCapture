@@ -27,7 +27,7 @@
         android:layout_height="69dp"
         android:layout_gravity="center"
         android:onClick="showCaptureFromCamera"
-        android:src="@drawable/ic_camera_alt_white_24dp"
+        android:src="@drawable/ic_videocam_white_24dp"
         android:layout_marginLeft="-80dp" />
 
 </LinearLayout>

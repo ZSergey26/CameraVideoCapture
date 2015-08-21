@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends Activity {
@@ -16,6 +17,7 @@ public class MainActivity extends Activity {
 
     private Camera mCamera;
     private CameraVideoCapture mPreview;
+    private ImageButton recButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,8 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        recButton = (ImageButton) findViewById(R.id.button_capture);
 
         setContentView(R.layout.activity_main);
     }
@@ -74,15 +78,21 @@ public class MainActivity extends Activity {
                     preview.addView(mPreview);
                     screenCaptured = true;
                     firstLaunch = false;
+
+                    recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_off_white_24dp));
                 } else {
                     mPreview.startCapturing();
                     screenCaptured = true;
-            }
+                    recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_off_white_24dp));
+
+                }
         }
         else
         {
             mPreview.stopCapturing();
             screenCaptured = false;
+
+            recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_white_24dp));
         }
     }
 
