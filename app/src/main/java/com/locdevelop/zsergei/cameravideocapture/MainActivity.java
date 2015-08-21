@@ -27,7 +27,6 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        recButton = (ImageButton) findViewById(R.id.button_capture);
 
         setContentView(R.layout.activity_main);
     }
@@ -69,6 +68,8 @@ public class MainActivity extends Activity {
      */
     public void showCaptureFromCamera(View view) {
 
+        recButton = (ImageButton) view;
+
         if (!screenCaptured) {
 
                 if(firstLaunch) {
@@ -79,11 +80,11 @@ public class MainActivity extends Activity {
                     screenCaptured = true;
                     firstLaunch = false;
 
-                    recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_off_white_24dp));
+                    recButton.setImageResource(R.drawable.ic_videocam_off_white_24dp);
                 } else {
                     mPreview.startCapturing();
                     screenCaptured = true;
-                    recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_off_white_24dp));
+                    recButton.setImageResource(R.drawable.ic_videocam_off_white_24dp);
 
                 }
         }
@@ -92,7 +93,8 @@ public class MainActivity extends Activity {
             mPreview.stopCapturing();
             screenCaptured = false;
 
-            recButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_videocam_white_24dp));
+            recButton.setImageResource(R.drawable.ic_videocam_white_24dp);
+
         }
     }
 
