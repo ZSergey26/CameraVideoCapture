@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
 
     /** Безопасное создание объекта камеры
      *
-     * @return Camera object. Null if camera is unavailable
+     * @return Объект камеры. Null если она недоступна
      */
     public static Camera getCameraInstance(){
         Camera c = null;
@@ -47,10 +47,11 @@ public class MainActivity extends Activity {
         return c;
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
-        mCamera.release();
     }
 
     @Override
@@ -72,21 +73,23 @@ public class MainActivity extends Activity {
 
         if (!screenCaptured) {
 
-                if(firstLaunch) {
-                    // Вставляем созданный объект в разметку
-                    mPreview = new CameraVideoCapture(this, mCamera);
-                    FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-                    preview.addView(mPreview);
-                    screenCaptured = true;
-                    firstLaunch = false;
+            if (firstLaunch) {
+                firstLaunch = false;
 
-                    recButton.setImageResource(R.drawable.ic_videocam_off_white_24dp);
-                } else {
-                    mPreview.startCapturing();
-                    screenCaptured = true;
-                    recButton.setImageResource(R.drawable.ic_videocam_off_white_24dp);
+                // Вставляем созданный объект в разметку
+                mPreview = new CameraVideoCapture(this, mCamera);
+                FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+                preview.addView(mPreview);
 
-                }
+
+                screenCaptured = true;
+
+            } else {
+                mPreview.startCapturing();
+                screenCaptured = true;
+            }
+            recButton.setImageResource(R.drawable.ic_videocam_off_white_24dp);
+
         }
         else
         {
@@ -94,7 +97,6 @@ public class MainActivity extends Activity {
             screenCaptured = false;
 
             recButton.setImageResource(R.drawable.ic_videocam_white_24dp);
-
         }
     }
 

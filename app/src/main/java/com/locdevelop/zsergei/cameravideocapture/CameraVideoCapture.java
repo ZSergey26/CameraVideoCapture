@@ -36,6 +36,10 @@ public class CameraVideoCapture extends SurfaceView implements SurfaceHolder.Cal
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
+
+        if (mCamera == null)
+            return;
+
         // После создания Surface выводим в него превью с камеры
         try {
             mCamera.setPreviewDisplay(holder);
@@ -46,6 +50,10 @@ public class CameraVideoCapture extends SurfaceView implements SurfaceHolder.Cal
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
+        if (mCamera != null) {
+            // Освобождаем объект камеры
+            stopPreviewAndFreeCamera();
+        }
     }
 
     /**
@@ -67,7 +75,6 @@ public class CameraVideoCapture extends SurfaceView implements SurfaceHolder.Cal
             e.printStackTrace();
             Log.d(TAG, "Error stopping camera preview: " + e.getMessage());
         }
-
 
         try {
             mCamera.setPreviewDisplay(mHolder);
@@ -96,5 +103,17 @@ public class CameraVideoCapture extends SurfaceView implements SurfaceHolder.Cal
     public void startCapturing()
     {
         mCamera.startPreview();
+    }
+
+    private void stopPreviewAndFreeCamera() {
+
+        if (mCamera != null) {
+
+            mCamera.stopPreview();
+
+            mCamera.release();
+
+            mCamera = null;
+        }
     }
 }
